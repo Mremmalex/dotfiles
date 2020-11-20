@@ -1,4 +1,6 @@
 {
+  "eslint.packageManager": "yarn",
+  "eslint.nodePath": ".yarn/sdks",
   "eslint.autoFixOnSave": true,
   "eslint.filetypes": [
     "javascript",
@@ -6,6 +8,7 @@
     "typescript",
     "typescriptreact"
   ],
+  "tsserver.disableAutomaticTypeAcquisition": false,
   "tsserver.formatOnType": true,
   "coc.preferences.formatOnType": true,
   "prettier.disableSuccessMessage": true,
@@ -17,6 +20,7 @@
     "json",
     "javascriptreact",
     "typescript.tsx",
+    "javascript.jsx",
     "graphql",
     "python",
     "css",

@@ -1,4 +1,3 @@
-
 filetype off
 set t_co=256
 set shiftwidth=4
@@ -11,6 +10,7 @@ syntax on
 set wildignore+=*.pyc
 autocmd Filetype html,ruby,javascript,yml,yaml,json,haskell,ejs,htmldjango setlocal ts=2 sts=2 sw=2
 set nu
+set modifiable
 set autochdir
 set noswapfile
 set background=dark
@@ -60,9 +60,10 @@ Plug 'fatih/vim-go'
 "autocomplete
 Plug 'ncm2/ncm2'
 Plug 'ncm2/ncm2-go'
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
+"Plug 'roxma/nvim-yarp'
+"Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'stamblerre/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
+
 "Snippets:
 Plug 'ncm2/ncm2-ultisnips'
 Plug 'SirVer/ultisnips'
@@ -71,6 +72,7 @@ Plug 'SirVer/ultisnips'
 " Text search your project directory
 Plug 'dyng/ctrlsf.vim'
 " Fuzzy file finder
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 " Root the project dir to folder w/ .git if applicable
@@ -81,10 +83,9 @@ Plug 'tomasiser/vim-code-dark'
 Plug 'ianks/vim-tsx'
 Plug 'mxw/vim-jsx'
 " typescript-vim will do all the coloring for typescript keywords
-"Plug 'leafgarland/typescript-vim'
+Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-
 call plug#end()
   
 
@@ -92,7 +93,10 @@ call plug#end()
 if (has("termguicolors"))
 	 set termguicolors
 endif
-
+"change the default mapping and command to invoke ctrlp
+"let g:ctrlp_map = '<c-p>'
+"let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 let g:fzf_action = {
       \ 'ctrl-s': 'split',
       \ 'ctrl-v': 'vsplit',
@@ -101,8 +105,6 @@ let g:fzf_action = {
 nnoremap <c-p> :FZF<cr>
 nnoremap <c-f> :Rg<cr>
 let g:go_fmt_command = "goimports"
-"settinf the Auto formater
-"noremap <silent> <space>f :Autoformat<CR>
 
 "FILE BROWSER:
 ""-------------
@@ -154,7 +156,8 @@ function! s:check_back_space() abort
 
     " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
-    "
+
+nmap <c-c> <esc> <CR>
     " " Use `[c` and `]c` to navigate diagnostics
 nmap <silent> [c <Plug>(coc-diagnostic-prev)
 nmap <silent> ]c <Plug>(coc-diagnostic-next)
@@ -166,11 +169,9 @@ nmap <silent> ]c <Plug>(coc-diagnostic-next)
     nmap <silent> gr <Plug>(coc-references)"
     " "
 
-
-    " Use U to show documentation in preview window
+" Use U to show documentation in preview window
 nnoremap <silent> U :call <SID>show_documentation()<CR>
-    "
-    " " Remap for rename current word
+"  Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
     "
     "" Remap for format selected region
@@ -178,6 +179,7 @@ vmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
     " Show all diagnostics
 nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+
     " " Manage extensions
 "nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
     " " Show commands
@@ -194,27 +196,6 @@ nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
 "nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 "AUTOCOMPLETE:
 "-------------
-augroup ncm2
-     au!
-     autocmd BufEnter * call ncm2#enable_for_buffer()
-     set completeopt=noinsert,menuone,noselect
-     au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
-     au User Ncm2PopupClose set completeopt=menuone
-augroup END
-        "Press Enter to select item in autocomplete popup
-          "iinoremap <silent> <expr> <CR> (pumvisible() ? ncm2_ultisnips#expand_or("\<CR>", 'n') : "\<CR>")
-          "Cycle through completion entries with tab/shift+tab
-          inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
-          inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<TAB>"
-          "Allow getting out of pop with Down/Up arrow keys
-          inoremap <expr> <down> pumvisible() ? "\<C-E>" : "\<down>"
-          inoremap <expr> <up> pumvisible() ? "\<C-E>" : "\<up>"
-
-"by default .ts file are not identified as typescript and .tsx files are not
-" " identified as typescript react file, so add following
-"au BufNewFile,BufRead *.ts setlocal filetype=typescript
-"au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx"
-
 
 "ale config
 let g:ale_linters = {"python": ["flake8"]}
@@ -225,7 +206,7 @@ let g:ale_fix_on_save = 1
 let g:coc_global_extensions = [
 \ 'coc-snippets',
 \ 'coc-pairs',
-"\ 'coc-tsserver',
+\ 'coc-tsserver',
 \ 'coc-eslint', 
 \ 'coc-prettier', 
 \ 'coc-json', 
@@ -233,10 +214,10 @@ let g:coc_global_extensions = [
 \ 'coc-html',
 \ 'coc-css',
 \ 'coc-yank',
-"\ 'coc-deno',
 \ 'coc-python',
 \ 'coc-markdownlint'
 \ ]
+
 
 let g:gruvbox_contrast_dark ='hard'
 let g:gruvbox_invert_selection = '0'

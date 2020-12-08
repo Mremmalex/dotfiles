@@ -1,0 +1,27 @@
+{
+  "workbench.colorTheme": "Just Black",
+  "window.zoomLevel": 0,
+  "go.formatTool": "goimports",
+  "python.formatting.autopep8Args": ["--ignore", "E402"],
+  "liveSassCompile.settings.formats": [
+    {
+      "format": "expanded",
+      "extensionName": ".css",
+      "savePath": "/dist/css"
+    }
+  ],
+  "editor.formatOnSave": true,
+  "powermode.enabled": true,
+  "powermode.presets": "flames",
+  "editor.minimap.enabled": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "go.autocompleteUnimportedPackages": true,
+  "go.formatTool": "goimports",
+  "go.docsTool": "gogetdoc"
+}

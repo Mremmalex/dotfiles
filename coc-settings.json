@@ -1,5 +1,4 @@
 {
-
   "eslint.packageManager": "yarn",
   "eslint.nodePath": ".yarn/sdks",
   "eslint.autoFixOnSave": true,
@@ -41,5 +40,9 @@
   "python.jediEnabled": false,
   "python.linting.pylintPath": "flake8",
   "python.formatting.provider": "black",
-  "python.linting.pylintUseMinimalCheckers": false
+  "explorer.width": 30,
+  "explorer.keyMappings.global": {
+    "<cr>": ["expandable", "expand", "open"],
+    "v": "open.vsplit"
+  }
 }

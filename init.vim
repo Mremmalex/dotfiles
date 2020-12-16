@@ -7,11 +7,12 @@ set expandtab
 set smartindent
 set nowrap
 syntax on
+set autochdir
 set wildignore+=*.pyc
 autocmd Filetype html,ruby,javascript,yml,yaml,json,haskell,ejs,htmldjango setlocal ts=2 sts=2 sw=2
 set nu
+set encoding=UTF-8
 set modifiable
-set autochdir
 set noswapfile
 set background=dark
 "let g:ycm_autoclose_preview_window_after_completion=1
@@ -22,9 +23,9 @@ set hlsearch
 set incsearch 
 set nofoldenable
 filetype plugin indent on
-
+set guifont=Hack\ Nerd\ Font\ 11
 let mapleader = " " 
-
+let g:airline_powerline_fonts = 1
 call plug#begin("~/AppData/Local/nvim/plugged")
 " Plugin Section
 Plug 'morhetz/gruvbox'
@@ -45,18 +46,19 @@ Plug 'Chiel92/vim-autoformat'"
 "setting up ale 
 Plug 'dense-analysis/ale'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
 "Plug 'jiangmiao/auto-pairs' 
 Plug 'vim-airline/vim-airline'
 Plug 'zchee/deoplete-jedi'
 ":Pl'mitt/taline.vim'Pl: 'ryanoasis/vim-eviconsi
-Plug 'neovim/nvim-lspconfig'
 " Git wrapper
 Plug 'tpope/vim-fugitive'
 " Directory sidebar tree view
-Plug 'scrooloose/nerdtree'
+Plug 'ryanoasis/vim-devicons'
 " setting up golang
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-Plug 'fatih/vim-go'
+"Plug 'fatih/vim-go'
+
 "autocomplete
 Plug 'ncm2/ncm2'
 Plug 'ncm2/ncm2-go'
@@ -64,17 +66,15 @@ Plug 'ncm2/ncm2-go'
 "Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'stamblerre/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
 
-"Snippets:
-Plug 'ncm2/ncm2-ultisnips'
-Plug 'SirVer/ultisnips'
-" Json plugin
-"Plug 'elzr/vim-json'
 " Text search your project directory
 Plug 'dyng/ctrlsf.vim'
+Plug 'tomlion/vim-solidity'
 " Fuzzy file finder
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+"Plug 'ctrlpvim/ctrlp.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+"
+"Plug 'elzr/vim-json'
 " Root the project dir to folder w/ .git if applicable
 Plug 'airblade/vim-rooter'
 " Nice colorscheme based on Visual Studio dark
@@ -96,7 +96,15 @@ endif
 "change the default mapping and command to invoke ctrlp
 "let g:ctrlp_map = '<c-p>'
 "let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+"let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+
+if filereadable(expand("~/.config/nvim/plugged/fzf.vim/plugin/fzf.vim"))
+    let $FZF_DEFAULT_COMMAND='rg --files --follow --no-ignore-vcs --hidden -g "!{**/node_modules/**,.git/*,**/*.pem,**/venv/**}"'
+    let $FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+    nnoremap <leader>ff :Files<CR>
+    nnoremap <leader>fg :Rg<CR>
+endif
+    
 let g:fzf_action = {
       \ 'ctrl-s': 'split',
       \ 'ctrl-v': 'vsplit',
@@ -105,25 +113,6 @@ let g:fzf_action = {
 nnoremap <c-p> :FZF<cr>
 nnoremap <c-f> :Rg<cr>
 let g:go_fmt_command = "goimports"
-
-"FILE BROWSER:
-""-------------
-"allows NERDTree to open/close by typing 'n' then 't'
-"nnoremap nt :NERDTreeTabsToggle<Enter>
-""Start NERDtree when dir is selected (e.g. "vim .") and start NERDTreeTabs
-"let g:nerdtree_tabs_open_on_console_startup=2
-"Add a close button in the upper right for tabs
-"let g:tablineclosebutton=1
-""Automatically find and select currently opened file in NERDTree
-"let g:nerdtree_tabs_autofind=1
-"Add folder icon to directories
-"let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-"let g:DevIconsEnableFoldersOpenClose = 1
-""Hide expand/collapse arrows
-"let g:NERDTreeDirArrowExpandable = "\u00a0"
-" g:NERDTreeDirArrowCollapsible = "\u00a0"
-"let g:WebDevIconsNerdTreeBeforeGlyphPadding = ""
-"highlight! link NERDTreeFlags NERDTreeDir
 
 " -------------------------------------------------------------------------------------------------
 "  " coc.nvim default settings
@@ -152,7 +141,7 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 function! s:check_back_space() abort
       let col = col('.') - 1
         return !col || getline('.')[col - 1]  =~# '\s'
-    endfunction
+endfunction
 
     " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
@@ -173,35 +162,19 @@ nmap <silent> ]c <Plug>(coc-diagnostic-next)
 nnoremap <silent> U :call <SID>show_documentation()<CR>
 "  Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
-    "
-    "" Remap for format selected region
-vmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
     " Show all diagnostics
 nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
 
-    " " Manage extensions
-"nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-    " " Show commands
-"nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-    " " Find symbol of current document
-"nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-    " " Search workspace symbols
-"nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-    " " Do default action for next item.
-"nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-    " " Do default action for previous item.
-"nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-" Resume latest coc list
-"nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
-"AUTOCOMPLETE:
-"-------------
-
 "ale config
-let g:ale_linters = {"python": ["flake8"]}
 let g:ale_fixers ={'*':[], 'python': ['black']}
 let g:ale_disable_lsp = 1
 let g:ale_fix_on_save = 1
+
+let g:ale_linters = {
+\ 'go': ['gopls'],
+\ "python": ["flake8"],
+\}
+
 " coc config
 let g:coc_global_extensions = [
 \ 'coc-snippets',
@@ -215,7 +188,13 @@ let g:coc_global_extensions = [
 \ 'coc-css',
 \ 'coc-yank',
 \ 'coc-python',
-\ 'coc-markdownlint'
+\ 'coc-markdownlint',
+\ 'coc-go',
+\ 'coc-yaml',
+\ 'coc-docker',
+\ 'coc-tailwindcss',
+\ 'coc-marketplace',
+\ 'coc-explorer'
 \ ]
 
 
@@ -227,23 +206,66 @@ set number
 " disable vim-go :GoDef short cut (gd)
 " this is handled by LanguageClient [LC]
 let g:go_def_mapping_enabled = 0
-"let NERDTreeQuitOnOpen = 1
 syntax enable
 colorscheme gotham
 " open new split panes to right and below
-" set splitright
+"set splitright
 " set splitbelow
-" " turn terminal to normal mode with escape
-" tnoremap <Esc> <C-\><C-n>
+" turn terminal to normal mode with escape
+" tnoremap <C-c> <C-\><C-n>
 " " start terminal in insert mode
 " au BufEnter * if &buftype == 'terminal' | :startinsert | endif
-" " open term,inal on ctrl+n
+" " open terminal on ctrl+n
 " function! OpenTerminal()
-"   split term://bash
+"     split term://bash
 "     resize 10
-"     endfunction
-"     nnoremap <c-n> :call OpenTerminal()<CR>"
+" endfunction
+" nnoremap <c-n> :call OpenTerminal()<CR>"
 
-
-"setting up netrw file explorer 
-nmap <space>e :wincmd v<bar> :Ex<Bar> vertical resize 25 <CR>
+"setting auto import for go 
+autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
+"setting up coc explorer
+let g:coc_explorer_global_presets = {
+\   '.vim': {
+\     'root-uri': '~/.vim',
+\   },
+\   'cocConfig': {
+\      'root-uri': '~/.config/coc',
+\   },
+\   'tab': {
+\     'position': 'tab',
+\     'quit-on-open': v:true,
+\   },
+\   'floating': {
+\     'position': 'floating',
+\     'open-action-strategy': 'sourceWindow',
+\   },
+\   'floatingTop': {
+\     'position': 'floating',
+\     'floating-position': 'center-top',
+\     'open-action-strategy': 'sourceWindow',
+\   },
+\   'floatingLeftside': {
+\     'position': 'floating',
+\     'floating-position': 'left-center',
+\     'floating-width': 50,
+\     'open-action-strategy': 'sourceWindow',
+\   },
+\   'floatingRightside': {
+\     'position': 'floating',
+\     'floating-position': 'right-center',
+\     'floating-width': 50,
+\     'open-action-strategy': 'sourceWindow',
+\   },
+\   'simplify': {
+\     'file-child-template': '[selection | clip | 1] [indent][icon | 1] [filename omitCenter 1]'
+\   },
+\   'buffer': {
+\     'sources': [{'name': 'buffer', 'expand': v:true}]
+\   },
+\ }
+nmap <silent> <space>e :CocCommand explorer<CR>
+nmap <silent> <space>f :CocCommand explorer --preset floating<CR>
+autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
+" setting up netrw file explorer 
+" nmap <space>e :wincmd v<bar> :Ex<Bar> vertical resize 25 <CR>

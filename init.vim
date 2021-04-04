@@ -1,5 +1,6 @@
 filetype off
 set t_co=256
+set rnu
 set shiftwidth=4
 set tabstop=4
 set softtabstop=4
@@ -9,30 +10,26 @@ set nowrap
 syntax on
 set autochdir
 set wildignore+=*.pyc
-autocmd Filetype html,ruby,javascript,yml,yaml,json,haskell,ejs,htmldjango setlocal ts=2 sts=2 sw=2
-set nu
 set encoding=UTF-8
 set modifiable
 set noswapfile
-set background=dark
-"let g:ycm_autoclose_preview_window_after_completion=1
 set enc=utf-8
 set fileencodings=ucs-bom,utf8,prc
 set fileencoding=utf-8
-set hlsearch 
+" set hlsearch 
 set incsearch 
 set nofoldenable
 filetype plugin indent on
 set guifont=Hack\ Nerd\ Font\ 11
 let mapleader = " " 
 let g:airline_powerline_fonts = 1
+hi normal guibg=NONE ctermbg=NONE
 call plug#begin("~/AppData/Local/nvim/plugged")
 " Plugin Section
 Plug 'morhetz/gruvbox'
 Plug 'dracula/vim'
-Plug 'phanviet/vim-monokai-pro'
-Plug 'crusoexia/vim-monokai'
 Plug 'whatyouhide/vim-gotham'
+Plug 'voldikss/vim-floaterm'
 "Python autocomplete
 if has('nvim')
    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -77,8 +74,6 @@ Plug 'junegunn/fzf.vim'
 "Plug 'elzr/vim-json'
 " Root the project dir to folder w/ .git if applicable
 Plug 'airblade/vim-rooter'
-" Nice colorscheme based on Visual Studio dark
-Plug 'tomasiser/vim-code-dark'
 "vim pluggin to work with react typescript file .tsx
 Plug 'ianks/vim-tsx'
 Plug 'mxw/vim-jsx'
@@ -104,7 +99,14 @@ if filereadable(expand("~/.config/nvim/plugged/fzf.vim/plugin/fzf.vim"))
     nnoremap <leader>ff :Files<CR>
     nnoremap <leader>fg :Rg<CR>
 endif
-    
+
+ "'' VIM Keymaps ''"
+nmap <leader>h :wincmd h<CR>
+nmap <leader>j :wincmd j<CR>
+nmap <leader>k :wincmd k<CR>
+nmap <leader>l :wincmd l<CR>
+
+   
 let g:fzf_action = {
       \ 'ctrl-s': 'split',
       \ 'ctrl-v': 'vsplit',
@@ -207,7 +209,8 @@ set number
 " this is handled by LanguageClient [LC]
 let g:go_def_mapping_enabled = 0
 syntax enable
-colorscheme gotham
+colorscheme gruvbox 
+
 " open new split panes to right and below
 "set splitright
 " set splitbelow

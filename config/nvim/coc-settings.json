@@ -1,0 +1,56 @@
+{
+  "eslint.packageManager": "yarn",
+  "eslint.nodePath": ".yarn/sdks",
+  "eslint.autoFixOnSave": true,
+  "eslint.filetypes": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "tsserver.disableAutomaticTypeAcquisition": false,
+  "tsserver.formatOnType": true,
+  "coc.preferences.formatOnType": true,
+  "prettier.disableSuccessMessage": true,
+  "suggest.noselect": false,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "javascript",
+    "typescript",
+    "typescriptreact",
+    "json",
+    "javascriptreact",
+    "typescript.tsx",
+    "javascript.jsx",
+    "graphql",
+    "css",
+    "html",
+    "svelte",
+    "php"
+  ],
+  "languageserver": {
+    "golang": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
+      "filetypes": ["go"]
+    }
+  },
+  "svelte.plugin.html.tagComplete.enable": true,
+  "svelte.plugin.svelte.completions.enable": true,
+  "svelte.plugin.typescript.enable": true,
+  "svelte.plugin.svelte.enable": true,
+  "diagnostic.displayByAle": true,
+  "python.formatting.autopep8Args": ["--ignore", "E402"],
+  "python.linting.enabled": true,
+  "python.jediEnabled": false,
+  "python.linting.pylintPath": "flake8",
+  "python.formatting.provider": "black",
+  "explorer.width": 30,
+  "suggest.floatEnable": false,
+  "coc.preferences.hoverTarget": "echo",
+  "explorer.file.showHiddenFiles": true,
+  "explorer.icon.enableNerdfont": true,
+  "explorer.keyMappings.global": {
+    "<cr>": ["expandable", "expand", "open"],
+    "v": "open.vsplit"
+  }
+}

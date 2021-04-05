@@ -1,0 +1,1 @@
+/home/mremmalex/.local/share/omf/themes/krisleech/fish_prompt.fish

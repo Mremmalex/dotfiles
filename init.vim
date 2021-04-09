@@ -16,14 +16,16 @@ set noswapfile
 set enc=utf-8
 set fileencodings=ucs-bom,utf8,prc
 set fileencoding=utf-8
-" set hlsearch 
+set hlsearch 
 set incsearch 
 set nofoldenable
 filetype plugin indent on
 set guifont=Hack\ Nerd\ Font\ 11
+
 let mapleader = " " 
 let g:airline_powerline_fonts = 1
 hi normal guibg=NONE ctermbg=NONE
+
 call plug#begin("~/AppData/Local/nvim/plugged")
 " Plugin Section
 Plug 'morhetz/gruvbox'

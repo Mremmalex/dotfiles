@@ -1,26 +1,57 @@
 {
-  "workbench.colorTheme": "Just Black",
-  "window.zoomLevel": 0,
-  "go.formatTool": "goimports",
-  "python.formatting.autopep8Args": ["--ignore", "E402"],
-  "liveSassCompile.settings.formats": [
-    {
-      "format": "expanded",
-      "extensionName": ".css",
-      "savePath": "/dist/css"
-    }
-  ],
-  "editor.formatOnSave": true,
-  "powermode.enabled": true,
-  "powermode.presets": "flames",
-  "editor.minimap.enabled": false,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
+  
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter-notebook"
+    },
+    "editor.formatOnSave": true,
+    "go.toolsManagement.autoUpdate": true,
+    "python.autoComplete.addBrackets": true,
+    "python.formatting.provider": "black",
+    "python.languageServer": "Jedi",
+    "python.analysis.completeFunctionParens": true,
+    "[dart]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true,
+        "editor.rulers": [
+            80
+        ],
+        "editor.selectionHighlight": false,
+        "editor.suggest.snippetsPreventQuickSuggestions": false,
+        "editor.suggestSelection": "first",
+        "editor.tabCompletion": "onlySnippets",
+        "editor.wordBasedSuggestions": false
+    },
+    "editor.tabSize": 2,
+    "dart.debugExternalLibraries": true,
+    "dart.debugSdkLibraries": true,
+    "workbench.activityBar.visible": true,
+    "workbench.colorTheme": "One Dark Pro",
+    "sqltools.useNodeRuntime": true,
+    "terminal.integrated.tabs.enabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.pylintEnabled": false,
+    "workbench.startupEditor": "none",
+    "prettier.endOfLine": "auto",
+    "prettier.jsxBracketSameLine": true,
+    "prettier.useTabs": true,
+    "editor.formatOnType": true,
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave":true,
+        "editor.tabSize": 2
+    },
+    "notebook.cellToolbarLocation": {
+        "default": "right",
+        "jupyter-notebook": "left"
+    },
+    "powermode.enabled": true,
+    "powermode.presets": "particles",
+    "python.formatting.autopep8Args": ["--ignore", "E402"],
+    "python.formatting.yapfArgs": [
+        "--ignore=E402"
+    ],
+    "workbench.iconTheme": "vscode-icons",
+
   "go.autocompleteUnimportedPackages": true,
   "go.formatTool": "goimports",
   "go.docsTool": "gogetdoc"
